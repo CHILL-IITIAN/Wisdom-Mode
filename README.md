@@ -59,7 +59,6 @@ npm run dev                 # http://localhost:3000
 
 | Role  | Email                     | Password           |
 |-------|---------------------------|--------------------|
-| Admin | `admin@wisdommode.app`    | `WisdomAdmin#2026` |
 | User  | `seeker@wisdommode.app`   | `password123`      |
 
 > Change these in `.env` before deploying.
