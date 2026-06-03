@@ -1,0 +1,24 @@
+{
+  "_README": "Add new wisdom entries to the array below, then run:  npm run import:wisdom  — Every imported entry is published and automatically shows the Read-Aloud (🎧) option. 'slug' must be unique and lowercase-with-dashes. 'category' must match an existing category slug: studies-work | self-growth | relationships | life-challenges. Separate wisdom paragraphs with a blank line (\\n\\n in JSON). 'questions' is a list. 'tags' and 'related' are comma-separated. 'popular'/'featured' are optional booleans.",
+  "categories": [],
+  "wisdom": [
+    {
+      "slug": "comparison",
+      "category": "self-growth",
+      "title": "The Thief at the Window",
+      "problem": "I keep measuring my life against everyone else's and always come up short.",
+      "tags": "comparison,envy,social media,self-worth,enough",
+      "wisdom": "Comparison arrives quietly, like a thief at the window, and steals the contentment you already had. It works by a trick: it measures your full, messy inside against the curated outside of another. You know every doubt you have ever had; of them, you see only the highlight.\n\nThere will always be someone ahead of you and someone behind. If your peace depends on being first, you have built it on sand, for the rankings never stop shifting. The only comparison that builds rather than wounds is the one between who you were yesterday and who you are today.\n\nWhen you notice the thief at the window, you do not have to chase it away in anger. You can simply turn back to your own work, your own pace, your own quiet progress — and let the window be just a window again.",
+      "shift": "You are comparing your whole inside to someone's edited outside. The only honest measure is you against your former self.",
+      "action": "Today, when comparison strikes, write one specific way you have grown in the last year — then return to your own work.",
+      "questions": [
+        "Whose outside am I comparing my inside to?",
+        "How am I better than I was a year ago?",
+        "What would I focus on if no one else existed to measure against?"
+      ],
+      "related": "jealousy,self-doubt,confidence,purpose",
+      "popular": false,
+      "featured": false
+    }
+  ]
+}

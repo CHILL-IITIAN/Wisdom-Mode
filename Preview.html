@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wisdom Mode — A Library of Timeless Wisdom</title>
+<meta name="description" content="Wisdom Mode is a premium digital wisdom library that helps you navigate emotional, psychological and life struggles through carefully curated, hand-written wisdom." />
+<style>
+  /* ============================================================
+     WISDOM MODE — Self-contained premium preview
+     Ancient Library / Wisdom Archive / Premium Knowledge Vault
+     Dark theme, warm lighting, elegant typography.
+     All data is mock data held in-browser. No backend required.
+     ============================================================ */
+
+  :root{
+    --bg:           #0d0b08;
+    --bg-2:         #14110c;
+    --panel:        #1b160f;
+    --panel-2:      #221b12;
+    --line:         #3a2f20;
+    --line-soft:    #2a2218;
+    --gold:         #d9b86b;
+    --gold-bright:  #f0d493;
+    --gold-deep:    #a8854a;
+    --ember:        #e0a85e;
+    --parchment:    #efe6d2;
+    --text:         #e8ddc6;
+    --text-soft:    #b9ad94;
+    --text-dim:     #8a7f6a;
+    --rose:         #c98b7a;
+    --ok:           #8fb98a;
+    --danger:       #c97a73;
+    --radius:       16px;
+    --radius-sm:    10px;
+    --shadow:       0 24px 60px -20px rgba(0,0,0,.75);
+    --shadow-gold:  0 0 0 1px rgba(217,184,107,.18), 0 18px 50px -24px rgba(217,184,107,.30);
+    --serif:        "Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --sans:         ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--text);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(224,168,94,.10), transparent 60%),
+      radial-gradient(900px 500px at 5% 10%, rgba(217,184,107,.06), transparent 55%),
+      linear-gradient(180deg, #0d0b08 0%, #100c07 100%);
+    background-attachment:fixed;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  /* faint paper texture via layered gradients */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;opacity:.04;z-index:0;
+    background-image:
+      repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, #fff 0 1px, transparent 1px 3px);
+    mix-blend-mode:overlay;
+  }
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:600;letter-spacing:.2px;line-height:1.2;margin:0;}
+  p{margin:0 0 1rem;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+  img{max-width:100%;}
+  ::selection{background:rgba(217,184,107,.3);color:#fff;}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:.5rem;justify-content:center;
+    padding:.78rem 1.4rem;border-radius:999px;border:1px solid transparent;
+    font-weight:600;font-size:.95rem;letter-spacing:.3px;transition:.25s ease;
+    background:transparent;color:var(--text);white-space:nowrap;
+  }
+  .btn-gold{
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold) 55%,var(--gold-deep));
+    color:#241a09;box-shadow:0 10px 28px -10px rgba(217,184,107,.55);
+  }
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 16px 34px -10px rgba(217,184,107,.7);}
+  .btn-ghost{border-color:var(--line);color:var(--text-soft);}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-bright);background:rgba(217,184,107,.06);}
+  .btn-sm{padding:.5rem .9rem;font-size:.85rem;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px;position:relative;z-index:1;}
+  .app{display:none;}
+  .app.active{display:block;}
+
+  /* ---------- top nav ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:linear-gradient(180deg, rgba(13,11,8,.92), rgba(13,11,8,.72));
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{display:flex;align-items:center;gap:1.2rem;height:70px;}
+  .brand{display:flex;align-items:center;gap:.65rem;font-family:var(--serif);font-size:1.25rem;font-weight:600;color:var(--parchment);}
+  .brand .lamp{
+    width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+    background:radial-gradient(circle at 50% 35%, var(--gold-bright), var(--gold-deep));
+    box-shadow:0 0 22px rgba(224,168,94,.6);font-size:1.05rem;
+  }
+  .brand small{display:block;font-family:var(--sans);font-size:.62rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;font-weight:600;}
+  nav.links{display:flex;gap:.2rem;margin-left:auto;flex-wrap:wrap;}
+  nav.links a{
+    padding:.5rem .8rem;border-radius:8px;font-size:.9rem;color:var(--text-soft);transition:.2s;font-weight:500;
+  }
+  nav.links a:hover{color:var(--gold-bright);background:rgba(217,184,107,.07);}
+  nav.links a.active{color:var(--gold-bright);background:rgba(217,184,107,.1);}
+  .nav-cta{display:flex;align-items:center;gap:.6rem;margin-left:.6rem;}
+  .avatar{
+    width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#241a09;
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));font-size:.9rem;cursor:pointer;
+  }
+  .menu-toggle{display:none;background:none;border:1px solid var(--line);color:var(--gold);border-radius:8px;padding:.45rem .6rem;font-size:1.1rem;}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:6.5rem 0 4.5rem;text-align:center;overflow:hidden;}
+  .hero .glow{
+    position:absolute;left:50%;top:18%;transform:translateX(-50%);
+    width:680px;height:420px;border-radius:50%;
+    background:radial-gradient(circle, rgba(224,168,94,.22), transparent 70%);filter:blur(20px);pointer-events:none;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;letter-spacing:3px;text-transform:uppercase;
+    color:var(--gold);border:1px solid var(--line);padding:.4rem .9rem;border-radius:999px;margin-bottom:1.6rem;background:rgba(217,184,107,.05);
+  }
+  .hero h1{font-size:clamp(3rem,9vw,5.6rem);background:linear-gradient(180deg,#fdf3da,var(--gold) 75%,var(--gold-deep));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:1rem;}
+  .hero .sub{font-family:var(--serif);font-size:clamp(1.1rem,2.6vw,1.5rem);color:var(--text-soft);max-width:620px;margin:0 auto 2.3rem;font-style:italic;}
+  .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+  .hero-stats{display:flex;gap:2.5rem;justify-content:center;margin-top:3.5rem;flex-wrap:wrap;}
+  .hero-stats .s{text-align:center;}
+  .hero-stats .s b{display:block;font-family:var(--serif);font-size:1.9rem;color:var(--gold-bright);}
+  .hero-stats .s span{font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);}
+
+  /* ---------- section headers ---------- */
+  .section{padding:4rem 0;}
+  .sec-head{text-align:center;margin-bottom:2.8rem;}
+  .sec-head .kicker{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600;}
+  .sec-head h2{font-size:clamp(1.8rem,4vw,2.6rem);margin:.6rem 0 .5rem;color:var(--parchment);}
+  .sec-head p{color:var(--text-dim);max-width:560px;margin:0 auto;}
+
+  /* ---------- feature cards ---------- */
+  .grid{display:grid;gap:1.3rem;}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-2{grid-template-columns:repeat(2,1fr);}
+  .card{
+    background:linear-gradient(160deg,var(--panel),var(--bg-2));
+    border:1px solid var(--line-soft);border-radius:var(--radius);padding:1.6rem;
+    transition:.3s ease;position:relative;overflow:hidden;
+  }
+  .card::after{content:"";position:absolute;inset:0;border-radius:var(--radius);box-shadow:inset 0 1px 0 rgba(255,255,255,.04);pointer-events:none;}
+  .card:hover{transform:translateY(-5px);border-color:var(--line);box-shadow:var(--shadow-gold);}
+  .feature .ic{
+    width:52px;height:52px;border-radius:13px;display:grid;place-items:center;font-size:1.5rem;margin-bottom:1rem;
+    background:radial-gradient(circle at 40% 30%, rgba(224,168,94,.25), rgba(217,184,107,.06));border:1px solid var(--line);
+  }
+  .feature h3{font-size:1.2rem;color:var(--parchment);margin-bottom:.4rem;}
+  .feature p{font-size:.9rem;color:var(--text-dim);margin:0;}
+
+  /* ---------- category cards ---------- */
+  .cat-card{cursor:pointer;}
+  .cat-card .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;}
+  .cat-card .em{font-size:1.8rem;}
+  .cat-card .count{font-size:.72rem;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:.2rem .6rem;}
+  .cat-card h3{font-size:1.25rem;color:var(--parchment);margin-bottom:.5rem;}
+  .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem;}
+  .chip{font-size:.74rem;color:var(--text-soft);background:rgba(217,184,107,.07);border:1px solid var(--line-soft);border-radius:999px;padding:.25rem .7rem;}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line-soft);margin-top:3rem;padding:3rem 0 2rem;background:linear-gradient(180deg,transparent,rgba(0,0,0,.3));}
+  .foot-grid{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+  .foot-links{display:flex;gap:2rem;flex-wrap:wrap;}
+  .foot-links a{color:var(--text-dim);font-size:.9rem;}
+  .foot-links a:hover{color:var(--gold-bright);}
+  .foot-bottom{text-align:center;color:var(--text-dim);font-size:.8rem;margin-top:2rem;border-top:1px solid var(--line-soft);padding-top:1.5rem;}
+
+  /* ---------- search + filters ---------- */
+  .toolbar{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem;}
+  .search{
+    flex:1;min-width:260px;display:flex;align-items:center;gap:.6rem;
+    background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.7rem 1.2rem;transition:.2s;
+  }
+  .search:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,184,107,.12);}
+  .search input{background:none;border:none;outline:none;color:var(--text);flex:1;font-size:.98rem;}
+  .search input::placeholder{color:var(--text-dim);}
+  .filters{display:flex;gap:.5rem;flex-wrap:wrap;}
+  .fbtn{padding:.45rem .9rem;border-radius:999px;border:1px solid var(--line-soft);background:transparent;color:var(--text-soft);font-size:.84rem;transition:.2s;}
+  .fbtn:hover{border-color:var(--gold);color:var(--gold-bright);}
+  .fbtn.active{background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:#241a09;border-color:transparent;font-weight:600;}
+
+  /* ---------- wisdom list cards ---------- */
+  .wlist{display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem;}
+  .wcard{cursor:pointer;display:flex;flex-direction:column;}
+  .wcard .meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;}
+  .wcard .tag{font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);}
+  .wcard h3{font-size:1.3rem;color:var(--parchment);margin-bottom:.5rem;}
+  .wcard .prob{font-family:var(--serif);font-style:italic;color:var(--text-soft);font-size:1rem;margin-bottom:.9rem;}
+  .wcard .foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:.9rem;border-top:1px solid var(--line-soft);}
+  .wcard .foot .read{color:var(--gold);font-size:.85rem;font-weight:600;}
+  .fav{background:none;border:none;font-size:1.25rem;color:var(--text-dim);transition:.2s;line-height:1;}
+  .fav:hover{transform:scale(1.2);}
+  .fav.on{color:var(--ember);text-shadow:0 0 12px rgba(224,168,94,.6);}
+
+  /* ---------- detail (wisdom entry) ---------- */
+  .detail{max-width:760px;margin:0 auto;}
+  .back{display:inline-flex;align-items:center;gap:.4rem;color:var(--text-dim);font-size:.9rem;margin-bottom:1.5rem;}
+  .back:hover{color:var(--gold-bright);}
+  .detail .tag{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+  .detail h1{font-size:clamp(2rem,5vw,3rem);color:var(--parchment);margin:.6rem 0 1rem;}
+  .problem-box{
+    background:linear-gradient(160deg,rgba(224,168,94,.08),transparent);
+    border-left:3px solid var(--gold);border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+    padding:1.2rem 1.4rem;font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--parchment);margin:1.5rem 0 2.5rem;
+  }
+  .block{margin-bottom:2.5rem;}
+  .block .label{display:flex;align-items:center;gap:.55rem;font-size:.74rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;font-weight:600;}
+  .block .label .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);}
+  .wisdom-text{font-family:var(--serif);font-size:1.15rem;line-height:1.85;color:var(--text);}
+  .wisdom-text p{margin-bottom:1.2rem;}
+  .shift-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem 1.6rem;}
+  .shift-box p{font-family:var(--serif);font-size:1.2rem;color:var(--gold-bright);margin:0;line-height:1.6;}
+  .action-box{display:flex;gap:1rem;align-items:flex-start;background:linear-gradient(160deg,rgba(143,185,138,.08),transparent);border:1px solid rgba(143,185,138,.25);border-radius:var(--radius);padding:1.4rem;}
+  .action-box .num{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(143,185,138,.18);color:var(--ok);font-weight:700;}
+  .qlist{list-style:none;padding:0;margin:0;display:grid;gap:.8rem;}
+  .qlist li{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius-sm);padding:1rem 1.2rem;font-family:var(--serif);font-size:1.05rem;color:var(--text-soft);display:flex;gap:.7rem;}
+  .qlist li::before{content:"❖";color:var(--gold);}
+  .related{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+  .rel-card{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius-sm);padding:1rem 1.2rem;cursor:pointer;transition:.2s;}
+  .rel-card:hover{border-color:var(--gold);transform:translateX(4px);}
+  .rel-card .t{color:var(--parchment);font-family:var(--serif);font-size:1.05rem;}
+  .rel-card .c{font-size:.78rem;color:var(--gold);}
+  .detail-actions{display:flex;gap:1rem;justify-content:center;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--line-soft);}
+
+  /* ---------- daily reflection ---------- */
+  .reflection{max-width:780px;margin:0 auto;}
+  .refl-date{text-align:center;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-size:.78rem;margin-bottom:.5rem;}
+  .quote-big{
+    font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.4rem);text-align:center;line-height:1.4;color:var(--parchment);
+    max-width:680px;margin:1rem auto 1.5rem;font-style:italic;position:relative;
+  }
+  .quote-big .author{display:block;font-size:1rem;font-style:normal;color:var(--gold);margin-top:1rem;letter-spacing:1px;}
+  .refl-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem;margin-top:2.5rem;}
+  .refl-cards .full{grid-column:1/-1;}
+
+  /* ---------- journal ---------- */
+  .journal-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;}
+  .jentry{cursor:pointer;}
+  .jentry .dt{font-size:.78rem;color:var(--text-dim);}
+  .jentry h3{font-size:1.2rem;color:var(--parchment);margin:.3rem 0 .5rem;}
+  .jentry p{font-size:.92rem;color:var(--text-soft);margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .jentry .acts{display:flex;gap:.5rem;margin-top:1rem;}
+  .icon-btn{background:none;border:1px solid var(--line-soft);color:var(--text-dim);border-radius:8px;padding:.35rem .7rem;font-size:.8rem;transition:.2s;}
+  .icon-btn:hover{border-color:var(--gold);color:var(--gold-bright);}
+  .icon-btn.del:hover{border-color:var(--danger);color:var(--danger);}
+
+  /* ---------- forms ---------- */
+  .field{margin-bottom:1.1rem;}
+  .field label{display:block;font-size:.82rem;color:var(--text-soft);margin-bottom:.45rem;letter-spacing:.3px;}
+  .field input,.field textarea,.field select{
+    width:100%;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius-sm);
+    padding:.8rem 1rem;color:var(--text);font-family:inherit;font-size:.98rem;outline:none;transition:.2s;
+  }
+  .field textarea{min-height:160px;resize:vertical;font-family:var(--serif);line-height:1.7;}
+  .field input:focus,.field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,184,107,.12);}
+  .checkrow{display:flex;align-items:center;gap:.5rem;font-size:.88rem;color:var(--text-soft);}
+  .checkrow input{width:auto;}
+
+  /* ---------- profile ---------- */
+  .profile-head{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+  .profile-head .big-av{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-size:2rem;font-weight:700;color:#241a09;background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;}
+  .stat{text-align:center;padding:1.5rem 1rem;}
+  .stat b{display:block;font-family:var(--serif);font-size:2.2rem;color:var(--gold-bright);}
+  .stat span{font-size:.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);}
+
+  /* ---------- empty state ---------- */
+  .empty{text-align:center;padding:4rem 1rem;color:var(--text-dim);}
+  .empty .e{font-size:3rem;margin-bottom:1rem;opacity:.6;}
+
+  /* ---------- modal / auth ---------- */
+  .modal-bg{position:fixed;inset:0;background:rgba(5,4,2,.78);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:1rem;}
+  .modal-bg.show{display:flex;animation:fade .3s ease;}
+  .modal{background:linear-gradient(160deg,var(--panel),var(--bg-2));border:1px solid var(--line);border-radius:20px;padding:2.4rem;max-width:440px;width:100%;box-shadow:var(--shadow);position:relative;}
+  .modal h2{text-align:center;color:var(--parchment);margin-bottom:.4rem;}
+  .modal .msub{text-align:center;color:var(--text-dim);font-size:.9rem;margin-bottom:1.8rem;}
+  .modal .close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;color:var(--text-dim);font-size:1.4rem;}
+  .switch{text-align:center;margin-top:1.3rem;font-size:.88rem;color:var(--text-dim);}
+  .switch a{color:var(--gold);font-weight:600;cursor:pointer;}
+  .row-between{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;}
+  .row-between a{color:var(--gold);font-size:.84rem;cursor:pointer;}
+
+  /* ---------- listen / voice bar ---------- */
+  .listen-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+    background:linear-gradient(160deg,rgba(224,168,94,.10),rgba(27,22,15,.6));
+    border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.3rem;margin:0 0 2.5rem;}
+  .listen-label{display:flex;align-items:center;gap:.9rem;}
+  .listen-ic{font-size:1.5rem;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none;
+    background:radial-gradient(circle at 40% 30%,rgba(224,168,94,.3),rgba(217,184,107,.08));border:1px solid var(--line);}
+  .listen-ic.pulse{animation:listenPulse 1.4s ease-in-out infinite;}
+  @keyframes listenPulse{0%,100%{box-shadow:0 0 0 0 rgba(224,168,94,.5);}50%{box-shadow:0 0 0 8px rgba(224,168,94,0);}}
+  .listen-controls{display:flex;gap:.5rem;flex-wrap:wrap;}
+  @media (max-width:560px){.listen-bar{flex-direction:column;align-items:stretch;}.listen-controls .btn{flex:1;}}
+
+  /* ---------- toast ---------- */
+  #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);z-index:200;
+    background:linear-gradient(135deg,var(--panel-2),var(--panel));border:1px solid var(--gold);color:var(--parchment);
+    padding:.85rem 1.4rem;border-radius:999px;box-shadow:var(--shadow);font-size:.9rem;transition:.4s cubic-bezier(.2,.9,.3,1);opacity:0;}
+  #toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+  /* ---------- animations ---------- */
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  .reveal{animation:rise .6s ease both;}
+  .reveal.d1{animation-delay:.08s}.reveal.d2{animation-delay:.16s}.reveal.d3{animation-delay:.24s}.reveal.d4{animation-delay:.32s}
+
+  .preview-badge{position:fixed;top:10px;left:10px;z-index:300;background:rgba(217,184,107,.12);border:1px solid var(--line);color:var(--gold);font-size:.68rem;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;border-radius:999px;backdrop-filter:blur(6px);}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:980px){
+    .grid-4{grid-template-columns:repeat(2,1fr);}
+    .grid-3{grid-template-columns:repeat(2,1fr);}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:760px){
+    nav.links{display:none;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:var(--bg-2);border-bottom:1px solid var(--line);padding:1rem;gap:.3rem;}
+    nav.links.open{display:flex;}
+    nav.links a{padding:.8rem 1rem;}
+    .menu-toggle{display:block;margin-left:auto;}
+    .nav-cta{margin-left:.4rem;}
+    .wlist,.grid-2,.grid-3,.grid-4,.refl-cards,.related,.stat-grid{grid-template-columns:1fr;}
+    .hero{padding:4rem 0 3rem;}
+    .hero-stats{gap:1.5rem;}
+    .foot-grid{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<div class="preview-badge">Wisdom Mode · Static Preview</div>
+
+<!-- ============ TOP NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#" data-go="home">
+      <span class="lamp">🪔</span>
+      <span>Wisdom Mode<small>Knowledge Vault</small></span>
+    </a>
+    <nav class="links" id="navlinks">
+      <a data-go="home">Home</a>
+      <a data-go="library">Wisdom Library</a>
+      <a data-go="categories">Categories</a>
+      <a data-go="daily">Daily Reflection</a>
+      <a data-go="journal">Journal</a>
+      <a data-go="favorites">Favorites</a>
+      <a data-go="profile">Profile</a>
+    </nav>
+    <div class="nav-cta">
+      <button class="btn btn-ghost btn-sm" id="authBtn" onclick="openAuth('login')">Sign In</button>
+      <div class="avatar" id="navAvatar" style="display:none" onclick="go('profile')"></div>
+      <button class="menu-toggle" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div style="max-width:320px">
+        <div class="brand" style="margin-bottom:.8rem"><span class="lamp">🪔</span><span>Wisdom Mode</span></div>
+        <p style="color:var(--text-dim);font-size:.9rem;margin:0">A library of timeless wisdom for modern struggles. Hand-written, never AI-generated. Arrive confused, leave with clarity.</p>
+      </div>
+      <div class="foot-links">
+        <a onclick="toast('About — our curators hand-write every entry.')">About</a>
+        <a onclick="toast('Contact — hello@wisdommode.app')">Contact</a>
+        <a onclick="toast('Privacy Policy — your journal stays private.')">Privacy Policy</a>
+        <a onclick="toast('Terms of Service')">Terms</a>
+      </div>
+    </div>
+    <div class="foot-bottom">© 2026 Wisdom Mode · Built around one principle: <em>“The user arrived confused and left with greater clarity.”</em></div>
+  </div>
+</footer>
+
+<!-- ============ AUTH MODAL ============ -->
+<div class="modal-bg" id="authModal">
+  <div class="modal">
+    <button class="close" onclick="closeAuth()">×</button>
+    <div id="authBody"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* =====================================================================
+   WISDOM MODE — front-end demo logic + seed data (mock, in-browser only)
+   ===================================================================== */
+
+/* ---------- SEED: Categories ---------- */
+const CATEGORIES = [
+  { id:'studies-work', emoji:'📚', name:'Studies & Work', desc:'Focus, deadlines, pressure and the discipline of doing the work.',
+    subs:['Procrastination','Fear of Failure','Burnout','Lack of Focus','Overthinking','Exam Stress'] },
+  { id:'self-growth', emoji:'🌱', name:'Self Growth', desc:'Becoming who you are meant to be, one honest choice at a time.',
+    subs:['Discipline','Confidence','Self Doubt','Identity Crisis','Purpose','Consistency'] },
+  { id:'relationships', emoji:'🤝', name:'Relationships', desc:'Connection, distance, trust, and the courage to be seen.',
+    subs:['Rejection','Loneliness','Betrayal','Attachment','Jealousy','Social Anxiety'] },
+  { id:'life-challenges', emoji:'🌗', name:'Life Challenges', desc:'Uncertainty, loss, and finding meaning when the path is dark.',
+    subs:['Regret','Uncertainty','Failure','Fear of Future','Loss','Meaninglessness'] },
+];
+
+/* ---------- SEED: Wisdom Entries ---------- */
+const WISDOM = [
+  {
+    id:'procrastination', cat:'studies-work', sub:'Procrastination', tag:'Procrastination',
+    title:'The Weight of the Undone',
+    problem:'I know what I should do, but I keep delaying it.',
+    popular:true, featured:true, added:'2026-05-30',
+    keywords:['procrastination','delay','avoidance','motivation','start','later'],
+    wisdom:[
+      'Procrastination is rarely about laziness. It is almost always about fear wearing a quieter mask. You are not avoiding the task — you are avoiding the feeling the task threatens to produce: the possibility of doing it badly, the discomfort of beginning before you feel ready, the silence of effort without applause.',
+      'Notice that the task itself never grows heavier. What grows is the story you carry about it. Each hour of delay adds another layer of dread, until a thirty-minute job feels like a mountain. The mountain is made of waiting, not of work.',
+      'The ancients knew that the will is not summoned by thinking — it is summoned by motion. You do not wait to feel ready and then act. You act, and readiness arrives behind you like a shadow catching up.'
+    ],
+    shift:'You are not behind because you are lazy. You are stuck because you are trying to feel ready before you begin. Readiness is the reward of starting, not its requirement.',
+    action:'Set a timer for five minutes and do only the first, smallest piece of the task. When the timer ends, you may stop. You almost never will.',
+    questions:['What exactly am I avoiding — the task, or the feeling it brings?','What is the smallest possible next step?','What would I do if I trusted that starting badly is allowed?'],
+    related:['fear-of-failure','overthinking','discipline','lack-of-focus']
+  },
+  {
+    id:'fear-of-failure', cat:'studies-work', sub:'Fear of Failure', tag:'Fear of Failure',
+    title:'The Courage to Be a Beginner',
+    problem:'I am so afraid of failing that I would rather not try at all.',
+    popular:true, featured:true, added:'2026-05-28',
+    keywords:['fear','failure','perfectionism','risk','trying','beginner'],
+    wisdom:[
+      'The fear of failure is the fear of a verdict — that if you try and fall short, the result will be a final sentence passed on who you are. But failure is never a verdict. It is information. It is the universe answering a question you were brave enough to ask.',
+      'When you refuse to try, you imagine you are staying safe. In truth you have already chosen a guaranteed failure over a possible one. The unlived attempt is the only failure that cannot teach you anything.',
+      'Every master you admire was once clumsy. The difference between them and the person who quit is not talent — it is their willingness to be bad at something long enough to become good.'
+    ],
+    shift:'Failure is not the opposite of success; it is part of its architecture. You are not risking who you are — you are discovering who you can become.',
+    action:'Choose one thing you have avoided out of fear and do a low-stakes version of it today, where the only goal is to participate, not to win.',
+    questions:['What am I afraid will happen if I fail?','Whose verdict am I really afraid of?','What would I attempt if I knew failure was simply data?'],
+    related:['procrastination','self-doubt','confidence','failure']
+  },
+  {
+    id:'overthinking', cat:'studies-work', sub:'Overthinking', tag:'Overthinking',
+    title:'The Mind That Will Not Rest',
+    problem:'I replay everything in my head until I am exhausted by my own thoughts.',
+    popular:true, added:'2026-05-25',
+    keywords:['overthinking','rumination','anxiety','analysis','worry','thoughts'],
+    wisdom:[
+      'Overthinking feels like problem-solving, but it is its imitation. Real thinking moves toward a decision; overthinking circles a decision without ever landing. It mistakes motion for progress and exhaustion for effort.',
+      'The mind that overthinks believes that if it considers every angle, it can guarantee a safe outcome. But certainty is not something thinking can purchase. Some answers only arrive through living, not through rehearsing.',
+      'There is a quiet power in deciding that a thought has been thought enough. Not every question deserves a thousand visits. Sometimes the wisest act is to set the question down and let your hands do what your head cannot resolve.'
+    ],
+    shift:'You are not thinking your way to safety — you are thinking your way to exhaustion. Clarity comes from action, not from one more lap around the same thought.',
+    action:'Write the looping thought on paper, then write one small action you can take about it. Do the action; close the loop on the page.',
+    questions:['Am I solving a problem or rehearsing a fear?','What decision is this thought avoiding?','What would change if I trusted myself to handle the outcome?'],
+    related:['anxiety','procrastination','uncertainty','fear-of-future']
+  },
+  {
+    id:'burnout', cat:'studies-work', sub:'Burnout', tag:'Burnout',
+    title:'When the Well Runs Dry',
+    problem:'I have pushed so hard for so long that I feel completely empty.',
+    added:'2026-05-22',
+    keywords:['burnout','exhaustion','rest','overwork','tired','empty'],
+    wisdom:[
+      'Burnout is not weakness — it is the bill arriving for a debt you took on quietly, day after day, by giving more than you received. The body and mind are not machines; they are gardens, and even the most fertile soil must lie fallow to bear fruit again.',
+      'You were taught that rest must be earned, that stopping is a kind of failure. But rest is not the reward for work — it is part of the work. A bow drawn forever loses its power to send the arrow.',
+      'Recovery does not begin with a grand escape. It begins with one honest sentence: I cannot keep doing this the way I have been. From that admission, a gentler rhythm can grow.'
+    ],
+    shift:'Rest is not the absence of productivity — it is the foundation of it. You are not lazy for needing to stop; you are human for having limits.',
+    action:'Protect one hour today that asks nothing of you. No screens, no goals — just rest, fully permitted.',
+    questions:['What have I been giving that I never agreed to give?','What would change if rest were allowed without guilt?','What is one thing I can set down this week?'],
+    related:['lack-of-focus','anxiety','meaninglessness','discipline']
+  },
+  {
+    id:'lack-of-focus', cat:'studies-work', sub:'Lack of Focus', tag:'Lack of Focus',
+    title:'The Scattered Light',
+    problem:'My attention shatters into pieces and I cannot hold it on anything.',
+    added:'2026-05-20',
+    keywords:['focus','attention','distraction','concentration','scattered'],
+    wisdom:[
+      'Attention is the rarest currency of your age, and a thousand forces compete to spend it for you. A scattered mind is not a broken mind — it is an untrained one, pulled in every direction because it was never taught to choose one.',
+      'Focus is not forcing the mind to be still; it is gently returning it, again and again, to what matters. The returning is the practice. You do not fail at focus when your mind wanders — you practice it each time you bring it back.',
+      'A single ray of sunlight passing through a lens can set wood aflame. The same light, scattered, only warms. Your power is not in how much attention you have, but in how narrowly you can aim it.'
+    ],
+    shift:'A wandering mind is not a flaw to fix but a habit to gently retrain. Focus is built one return at a time.',
+    action:'Choose one task, remove one distraction completely, and work in a single 25-minute block with nothing else open.',
+    questions:['What is stealing my attention without my consent?','What one thing deserves my focus right now?','What would deep work feel like if I protected it?'],
+    related:['overthinking','procrastination','discipline','exam-stress']
+  },
+  {
+    id:'exam-stress', cat:'studies-work', sub:'Exam Stress', tag:'Exam Stress',
+    title:'The Test Beyond the Test',
+    problem:'The pressure of this exam feels like it will decide my entire worth.',
+    added:'2026-05-18',
+    keywords:['exam','stress','pressure','test','study','grades'],
+    wisdom:[
+      'An exam measures what you knew on a single morning. It does not measure your intelligence, your future, or your value as a person. The mind under pressure forgets this and inflates one moment into a verdict on a whole life.',
+      'Stress is the body preparing for something it believes is dangerous. You can thank it for its loyalty and then remind it of the truth: this is a challenge, not a threat. Your survival does not depend on the outcome.',
+      'Prepare with discipline, then release with trust. You are responsible for the effort, not for the guarantee. The calmest students are not those who care least, but those who have made peace with doing their best and letting the result be what it is.'
+    ],
+    shift:'The exam tests a slice of knowledge on one day — not your worth, not your future, not who you are.',
+    action:'Make a short, realistic study plan for today, then schedule one deliberate break to remind your body it is safe.',
+    questions:['What story am I telling myself about what this exam decides?','What is within my control, and what is not?','How would I prepare if I trusted my own effort?'],
+    related:['anxiety','fear-of-failure','overthinking','burnout']
+  },
+
+  {
+    id:'discipline', cat:'self-growth', sub:'Discipline', tag:'Discipline',
+    title:'The Architecture of the Will',
+    problem:'I start strong but cannot stay consistent with anything.',
+    popular:true, featured:true, added:'2026-05-29',
+    keywords:['discipline','consistency','habit','willpower','routine','commitment'],
+    wisdom:[
+      'Discipline is not a personality you are born with or without. It is a structure you build. People who appear disciplined have not won a war against themselves — they have arranged their lives so the right action is the easy one.',
+      'Motivation is a guest; it visits and leaves. Discipline is the house you build so that even when the guest is gone, the work still happens. You do not rise to the level of your goals — you fall to the level of your systems.',
+      'Each time you keep a small promise to yourself, you cast a vote for the person you are becoming. Consistency is not built in grand gestures but in unremarkable days where you simply did the thing again.'
+    ],
+    shift:'Discipline is not about feeling motivated — it is about designing a life where the right action requires the least willpower.',
+    action:'Pick one keystone habit and shrink it until it feels almost too easy. Do that tiny version every day this week.',
+    questions:['Am I relying on motivation where I need a system?','What is the smallest version of this habit I could never skip?','What promise to myself do I most want to keep?'],
+    related:['consistency','procrastination','confidence','lack-of-focus']
+  },
+  {
+    id:'confidence', cat:'self-growth', sub:'Confidence', tag:'Confidence',
+    title:'The Trust You Build in Yourself',
+    problem:'I doubt myself constantly and wait for permission to act.',
+    popular:true, added:'2026-05-27',
+    keywords:['confidence','self-belief','courage','self-worth','permission'],
+    wisdom:[
+      'Confidence is not the absence of doubt — it is the willingness to act while doubt is still present. The confident person is not certain; they have simply stopped waiting for certainty before they move.',
+      'Real confidence is not borrowed from praise or stripped away by criticism. It is the quiet evidence you gather by keeping promises to yourself. Every time you do what you said you would, you become a little more trustworthy in your own eyes.',
+      'You have been waiting for permission that no one is coming to give. The authority you are looking for outside yourself has been yours to claim all along.'
+    ],
+    shift:'Confidence is not a feeling you wait for — it is a track record you build, one kept promise at a time.',
+    action:'Do one small thing today that you have been waiting to feel ready for. Let the doing create the belief.',
+    questions:['Whose permission am I waiting for?','What evidence of my own capability am I ignoring?','What would I do today if I trusted myself fully?'],
+    related:['self-doubt','fear-of-failure','identity-crisis','social-anxiety']
+  },
+  {
+    id:'self-doubt', cat:'self-growth', sub:'Self Doubt', tag:'Self Doubt',
+    title:'The Critic Within',
+    problem:'A voice in my head insists I am not good enough.',
+    added:'2026-05-24',
+    keywords:['self-doubt','inner critic','insecurity','not enough','comparison'],
+    wisdom:[
+      'The inner critic speaks in the voice of certainty, but it is rarely telling the truth. It is an old protector that learned, long ago, to keep you small so you would not risk being hurt. Its harshness is misguided care.',
+      'You are not obligated to believe every thought your mind produces. A thought is a suggestion, not a sentence. You can hear the critic, thank it for trying to keep you safe, and choose not to obey it.',
+      'Notice how you would speak to a friend who felt as you do. That gentler voice is also yours. You are allowed to turn it toward yourself.'
+    ],
+    shift:'The voice saying you are not enough is not the truth — it is an old fear trying to protect you. You can listen without obeying.',
+    action:'When the critic speaks today, write down its words, then write what you would say to a friend who felt that way.',
+    questions:['Where did this critical voice first come from?','Would I speak to someone I love this way?','What is one piece of evidence that contradicts the doubt?'],
+    related:['confidence','identity-crisis','fear-of-failure','rejection']
+  },
+  {
+    id:'identity-crisis', cat:'self-growth', sub:'Identity Crisis', tag:'Identity Crisis',
+    title:'Becoming, Not Finding',
+    problem:'I do not know who I am or who I am supposed to be anymore.',
+    added:'2026-05-21',
+    keywords:['identity','self','crisis','who am i','meaning','change'],
+    wisdom:[
+      'The question "who am I?" assumes there is a fixed self waiting to be discovered, like a statue beneath the marble. But you are not a thing to be found — you are a process to be lived. Identity is not excavated; it is composed.',
+      'Confusion about who you are is not a breakdown. It is often the soul outgrowing an old definition that no longer fits. The discomfort you feel is the gap between who you were and who you are becoming.',
+      'You do not need the whole map. You only need to notice what makes you feel most alive and most honest, and to take one step in that direction. Identity reveals itself in motion, not in stillness.'
+    ],
+    shift:'You are not failing to find yourself — you are in the middle of becoming. Identity is composed through living, not discovered through waiting.',
+    action:'Name one value that feels unmistakably yours, and take one small action today that honors it.',
+    questions:['What old definition of myself am I outgrowing?','When do I feel most like myself?','What value would I refuse to abandon?'],
+    related:['purpose','meaninglessness','confidence','self-doubt']
+  },
+  {
+    id:'purpose', cat:'self-growth', sub:'Purpose', tag:'Purpose',
+    title:'The Meaning You Make',
+    problem:'I feel lost, as if my life has no real direction or purpose.',
+    popular:true, added:'2026-05-19',
+    keywords:['purpose','meaning','direction','calling','lost','why'],
+    wisdom:[
+      'Purpose is not a single destiny hidden somewhere, waiting to be stumbled upon. It is not a lightning bolt. It is built, quietly, from the intersection of what moves you, what you are good at, and what the world around you needs.',
+      'The search for one grand purpose can paralyze you. But you do not need to know your life\'s meaning to live a meaningful day. Purpose is often discovered backward — you act, you contribute, and only later do you see the thread that connected it all.',
+      'A life of meaning is not made of extraordinary moments. It is made of ordinary moments lived with attention, contribution, and care. The smallest act done with love already carries purpose within it.'
+    ],
+    shift:'Purpose is not found — it is built, one meaningful act at a time. You do not need your whole life\'s meaning to make today matter.',
+    action:'Do one thing today that helps another person, however small, and notice how meaning follows contribution.',
+    questions:['What activities make me lose track of time?','How do I want to be useful to others?','What would a meaningful day look like, regardless of a grand purpose?'],
+    related:['meaninglessness','identity-crisis','discipline','regret']
+  },
+  {
+    id:'consistency', cat:'self-growth', sub:'Consistency', tag:'Consistency',
+    title:'The Power of the Unremarkable Day',
+    problem:'I can be intense for a few days, then I give up entirely.',
+    added:'2026-05-16',
+    keywords:['consistency','habit','routine','discipline','daily','quit'],
+    wisdom:[
+      'You have been chasing intensity when what you needed was steadiness. Intensity feels heroic and burns out fast; consistency feels boring and changes everything. The river carves the canyon not with force but with return.',
+      'The all-or-nothing mind treats one missed day as total failure and uses it as permission to abandon the whole pursuit. But missing once is an event; missing twice is the beginning of a new pattern. Never miss twice.',
+      'Greatness is not built on the days you feel inspired. It is built on the days you show up tired, unmotivated, and ordinary — and do a small amount anyway.'
+    ],
+    shift:'You do not need more intensity — you need to stop quitting. Consistency beats intensity because it compounds.',
+    action:'Decide on a minimum version of your habit so small you can do it even on your worst day. Never miss twice.',
+    questions:['Am I confusing intensity with progress?','What is my "never miss twice" minimum?','What story do I tell myself after one missed day?'],
+    related:['discipline','procrastination','confidence','burnout']
+  },
+
+  {
+    id:'rejection', cat:'relationships', sub:'Rejection', tag:'Rejection',
+    title:'When the Door Closes',
+    problem:'I was rejected and now I feel fundamentally unwanted.',
+    popular:true, added:'2026-05-26',
+    keywords:['rejection','heartbreak','unwanted','no','relationships','dating'],
+    wisdom:[
+      'Rejection feels like a statement about your worth, but it is almost always a statement about fit. A person, a job, a circle said "not this, not now" — and the wounded mind translates that into "not ever, not anyone." That translation is a lie pain tells.',
+      'No one is wanted by everyone. The people you most admire have been turned away countless times. Rejection is not a sign you are unlovable — it is the unavoidable cost of being someone real enough to be chosen or not chosen.',
+      'A door that closes was never going to lead where you belonged. The grief is real, but so is this: the right things rarely require you to shrink yourself to fit through a door that does not want you.'
+    ],
+    shift:'Rejection is information about fit, not a verdict on your worth. A closed door is redirection, not a sentence.',
+    action:'Write down what the rejection actually said about fit, separate from the story it tells about your worth.',
+    questions:['What is this rejection actually about — me, or fit?','What would I tell a friend who felt unwanted?','What door might this closing be redirecting me toward?'],
+    related:['loneliness','self-doubt','betrayal','social-anxiety']
+  },
+  {
+    id:'loneliness', cat:'relationships', sub:'Loneliness', tag:'Loneliness',
+    title:'The Ache of Disconnection',
+    problem:'I feel deeply alone, even when I am around other people.',
+    popular:true, featured:true, added:'2026-05-31',
+    keywords:['loneliness','isolation','alone','connection','belonging'],
+    wisdom:[
+      'Loneliness is not the absence of people — it is the absence of being seen. You can stand in a crowded room and ache, because what you long for is not company but recognition, the sense that someone knows the real you and stays.',
+      'The loneliest moments often carry a hidden invitation: to become, for yourself, the witness you have been waiting for. Solitude and loneliness are not the same. One is a wound; the other can become a home, once you learn to keep yourself company.',
+      'Connection is built through small acts of courage — reaching out first, revealing something true, letting yourself be known before you are certain you will be accepted. The bridge to others begins on your side.'
+    ],
+    shift:'Loneliness is not a sign that something is wrong with you — it is a signal of a need for connection, and a quiet invitation to reach out.',
+    action:'Reach out to one person today with something honest — not small talk, but a real word about how you actually are.',
+    questions:['Am I longing for company, or for being truly seen?','What small act of reaching out could I risk today?','How might I become better company for myself?'],
+    related:['rejection','social-anxiety','attachment','meaninglessness']
+  },
+  {
+    id:'betrayal', cat:'relationships', sub:'Betrayal', tag:'Betrayal',
+    title:'The Broken Trust',
+    problem:'Someone I trusted betrayed me, and I cannot stop reliving it.',
+    added:'2026-05-23',
+    keywords:['betrayal','trust','broken','hurt','forgiveness','anger'],
+    wisdom:[
+      'Betrayal wounds twice: once in the act itself, and again every time you replay it. The mind returns to the scene trying to make it make sense, as if understanding it perfectly could undo the pain. But some acts are not yours to explain — they belong to the one who chose them.',
+      'You may believe that staying angry keeps you safe, that your resentment is a guard at the gate. But resentment guards nothing; it only keeps you tethered to the very person who hurt you. Forgiveness, when it comes, is not for them — it is the moment you set down a weight you were never meant to carry forever.',
+      'Trust, once broken, can be rebuilt or released — but it cannot be forced. You are allowed to take your time, to protect yourself, and to let the betrayal teach you discernment without letting it harden you into permanent suspicion.'
+    ],
+    shift:'The betrayal was their choice, not your failure. Holding the anger does not punish them — it tethers you to them.',
+    action:'Write the story of what happened once, fully, then choose to stop re-litigating it in your mind today.',
+    questions:['Whose choice was the betrayal — really?','What is my resentment costing me?','What would protecting myself without hardening look like?'],
+    related:['rejection','attachment','regret','loneliness']
+  },
+  {
+    id:'attachment', cat:'relationships', sub:'Attachment', tag:'Attachment',
+    title:'Holding Without Gripping',
+    problem:'I cling to people so tightly that I push them away.',
+    added:'2026-05-15',
+    keywords:['attachment','clingy','anxiety','needy','relationships','fear'],
+    wisdom:[
+      'Anxious attachment is love distorted by fear — the fear that if you do not hold tightly enough, you will be left. But the tighter the grip, the more the other person feels the squeeze rather than the love, and the very thing you fear becomes more likely.',
+      'The cure for clinging is not to care less, but to build a self that does not collapse if the other person steps away. Security is an inside job. When you can be alone without falling apart, you can be together without grasping.',
+      'Love offered from fullness feels like a gift. Love offered from fear feels like a demand. The work is to fill your own cup enough that your love becomes an offering rather than a plea.'
+    ],
+    shift:'The grip that comes from fear pushes away the very thing you are afraid to lose. Security is built within, not extracted from others.',
+    action:'Spend time today doing something that fills your own cup, independent of anyone\'s attention or approval.',
+    questions:['What am I afraid will happen if I loosen my grip?','Where does my sense of security currently live?','How can I offer love from fullness rather than fear?'],
+    related:['loneliness','rejection','self-doubt','jealousy']
+  },
+  {
+    id:'jealousy', cat:'relationships', sub:'Jealousy', tag:'Jealousy',
+    title:'The Mirror of Envy',
+    problem:'I feel consumed by jealousy when I see others succeed or get loved.',
+    popular:true, added:'2026-05-14',
+    keywords:['jealousy','envy','comparison','resentment','insecurity'],
+    wisdom:[
+      'Jealousy is painful, but it is also honest. It points, like a compass needle, straight at what you secretly want and fear you cannot have. Beneath every flash of envy is a desire you have not yet given yourself permission to pursue.',
+      'Comparison steals the present by measuring your inside against someone else\'s outside. You see their highlight and forget it sits atop struggles you will never witness. No one\'s life is the seamless story it appears to be.',
+      'You can transform envy into instruction. Instead of "why them and not me," ask "what does my reaction reveal that I long for?" Then turn that longing into a direction rather than a wound.'
+    ],
+    shift:'Jealousy is not a flaw to hide but a signpost pointing at what you truly want. Let it inform your direction instead of poisoning your peace.',
+    action:'When jealousy arises today, name the desire underneath it and write one step toward that desire.',
+    questions:['What does my jealousy reveal that I want?','Am I comparing my inside to someone\'s outside?','How can I turn this envy into a direction?'],
+    related:['self-doubt','confidence','attachment','identity-crisis']
+  },
+  {
+    id:'social-anxiety', cat:'relationships', sub:'Social Anxiety', tag:'Social Anxiety',
+    title:'The Eyes You Imagine',
+    problem:'I am terrified of being judged, so I avoid people altogether.',
+    added:'2026-05-12',
+    keywords:['social anxiety','judgment','shy','fear','people','awkward'],
+    wisdom:[
+      'Social anxiety convinces you that everyone is watching and judging, when the truth is far kinder and far more humbling: most people are far too absorbed in their own self-consciousness to scrutinize yours. The spotlight you feel is one you are holding on yourself.',
+      'The fear predicts catastrophe — that you will be exposed, mocked, rejected. But these predictions are rarely tested, because avoidance keeps you safe and small. Each avoidance teaches the fear that it was right to be afraid.',
+      'Courage in social spaces is not the absence of the racing heart. It is staying in the room while it races, and discovering, slowly, that you survived. The fear shrinks not when you wait for it to pass, but when you act before it does.'
+    ],
+    shift:'The harsh audience you imagine is mostly absorbed in their own self-consciousness. The spotlight is one you hold on yourself.',
+    action:'Enter one social situation you would normally avoid and stay a few minutes longer than the fear wants you to.',
+    questions:['What catastrophe am I predicting, and how often does it come true?','Is the spotlight real, or am I holding it on myself?','What small social risk could I survive today?'],
+    related:['confidence','self-doubt','loneliness','rejection']
+  },
+
+  {
+    id:'regret', cat:'life-challenges', sub:'Regret', tag:'Regret',
+    title:'Making Peace With the Past',
+    problem:'I am haunted by choices I made and cannot take back.',
+    popular:true, added:'2026-05-17',
+    keywords:['regret','past','mistakes','guilt','what if','choices'],
+    wisdom:[
+      'Regret judges your past self with the knowledge your present self has earned. But the person who made that choice did not have your hindsight. They acted with the awareness, the wounds, and the limits they had at the time. To condemn them is to punish someone for not knowing what they could not yet know.',
+      'The past cannot be edited, only interpreted. And the interpretation is yours to choose. A mistake can be a stain you carry or a teacher you thank. The event is fixed; its meaning is not.',
+      'Regret only becomes useful when it points forward. If it teaches you how you want to live now, it has done its work. Beyond that, it is just self-punishment dressed as wisdom.'
+    ],
+    shift:'You judged your past self with knowledge they did not have. Regret is only useful when it teaches you how to live now.',
+    action:'Write what your past mistake taught you, then write one way you will honor that lesson today.',
+    questions:['What did my past self not yet know?','What has this regret actually taught me?','How can I let this guide me forward instead of holding me back?'],
+    related:['failure','meaninglessness','purpose','betrayal']
+  },
+  {
+    id:'uncertainty', cat:'life-challenges', sub:'Uncertainty', tag:'Uncertainty',
+    title:'Walking Into the Fog',
+    problem:'I cannot bear not knowing how things will turn out.',
+    added:'2026-05-13',
+    keywords:['uncertainty','unknown','control','future','fear','anxiety'],
+    wisdom:[
+      'The mind craves certainty the way the body craves water — it feels like survival depends on it. But certainty about the future has never actually existed; it is an illusion we cling to for comfort. Even on your calmest days, you never truly knew what tomorrow held.',
+      'Uncertainty is not the problem. The struggle to eliminate it is. When you stop demanding guarantees the world cannot give, a strange freedom appears: you only have to handle this step, not the entire unseen road.',
+      'The fog does not lift because you stare harder into it. It lifts as you walk. Clarity is not a prerequisite for movement — it is the result of it.'
+    ],
+    shift:'You were never actually promised certainty — you only believed you were. Peace comes not from knowing the future but from trusting you can meet it.',
+    action:'Identify one thing within your control today and act on it; release one thing that is not.',
+    questions:['What certainty am I demanding that no one can give?','What is the next single step I can actually take?','What would change if I trusted myself to handle what comes?'],
+    related:['fear-of-future','anxiety','overthinking','meaninglessness']
+  },
+  {
+    id:'failure', cat:'life-challenges', sub:'Failure', tag:'Failure',
+    title:'The Lessons in the Ruins',
+    problem:'I failed at something important and feel like a failure as a person.',
+    added:'2026-05-11',
+    keywords:['failure','defeat','loss','setback','identity','shame'],
+    wisdom:[
+      'There is a vast difference between failing and being a failure. The first is an event; the second is an identity. You experienced a loss — you did not become one. The mind quietly turns "I failed" into "I am a failure," and that small shift in grammar can darken an entire life.',
+      'Every failure carries a curriculum, but only for those willing to study the ruins rather than flee them. The question is not "why did this happen to me" but "what is this asking me to learn, to change, to release."',
+      'The people who eventually succeed are not those who never failed. They are those who failed and refused to let the failure define them. Defeat is only final when you stop extracting its lessons.'
+    ],
+    shift:'You experienced a failure — you did not become one. The event is over; its meaning is yours to decide.',
+    action:'List one thing the failure taught you and one specific way you will apply that lesson next.',
+    questions:['Did I fail, or am I calling myself a failure?','What is this failure trying to teach me?','What would I attempt next if I knew failure was survivable?'],
+    related:['fear-of-failure','regret','confidence','loss']
+  },
+  {
+    id:'fear-of-future', cat:'life-challenges', sub:'Fear of Future', tag:'Fear of Future',
+    title:'The Tomorrow That Frightens',
+    problem:'I am paralyzed by anxiety about what the future holds.',
+    added:'2026-05-10',
+    keywords:['fear','future','anxiety','worry','tomorrow','unknown'],
+    wisdom:[
+      'Fear of the future is the mind\'s attempt to suffer a thing before it has happened, as if rehearsing the pain could soften it. But worry is interest paid on a debt that may never come due. You can live a hundred imagined catastrophes and still meet only one real one.',
+      'The future you fear does not exist. It is a projection, a story, a forecast built from your anxieties rather than from facts. And here is what the anxious mind forgets: the future version of you will be wiser, more capable, and more resourced than you are now. You will not meet tomorrow as today\'s self.',
+      'You do not have to carry the whole future at once. It arrives one day at a time, and you have always, somehow, found a way to meet each day as it came.'
+    ],
+    shift:'You are suffering a future that does not exist yet. The you who meets it will be wiser and stronger than the you imagining it now.',
+    action:'Bring your attention fully to one task in front of you today, and let the future remain where it is.',
+    questions:['What future am I suffering before it has happened?','What evidence do I have that I can handle hard things?','What is the one day I actually have to meet — today?'],
+    related:['anxiety','uncertainty','overthinking','meaninglessness']
+  },
+  {
+    id:'loss', cat:'life-challenges', sub:'Loss', tag:'Loss',
+    title:'Carrying What We Loved',
+    problem:'I lost someone or something dear, and the grief feels unbearable.',
+    added:'2026-05-09',
+    keywords:['loss','grief','death','mourning','sadness','goodbye'],
+    wisdom:[
+      'Grief is the price of love, and it is a price worth paying. The depth of your sorrow is a measure of the depth of your bond. You are not broken for grieving — you are loving someone who is no longer here to receive it.',
+      'There is a cruel myth that grief should follow a tidy schedule, that healing means returning to who you were. But you do not get over a great loss; you grow around it. The loss remains; your life slowly grows larger to hold it.',
+      'What you loved does not vanish entirely. It lives on in how it changed you, in the values it left behind, in the way you now move through the world. To carry someone forward is its own quiet form of keeping them.'
+    ],
+    shift:'You do not "get over" loss — you grow around it. Grief is not a problem to solve but love with nowhere to go.',
+    action:'Honor what you lost today in one small way — a memory written down, a ritual, a word spoken aloud.',
+    questions:['What is my grief telling me about what I loved?','How might I carry this forward rather than leave it behind?','What do I need to give myself permission to feel?'],
+    related:['regret','meaninglessness','loneliness','uncertainty']
+  },
+  {
+    id:'meaninglessness', cat:'life-challenges', sub:'Meaninglessness', tag:'Meaninglessness',
+    title:'When Nothing Seems to Matter',
+    problem:'I feel empty, as if nothing I do has any meaning at all.',
+    added:'2026-05-08',
+    keywords:['meaninglessness','emptiness','nihilism','purpose','void','depression'],
+    wisdom:[
+      'The feeling that nothing matters is not a discovery of truth — it is often a symptom of exhaustion, disconnection, or a self turned too far inward. The void you sense is not proof that meaning is absent, but that the channels through which meaning usually flows have been blocked.',
+      'Meaning is not handed to you by the universe; it is generated through engagement — through love, work, creation, contribution, and care. When you feel nothing matters, the path back is rarely through more thinking. It is through small acts of involvement that remind you that you can affect the world and be touched by it.',
+      'You do not need to solve the cosmic question of why anything matters. You only need to find the next thing that matters to you, however small, and let your participation slowly rekindle the sense that you belong to life.'
+    ],
+    shift:'The sense that nothing matters is usually a signal of disconnection, not a truth about reality. Meaning returns through engagement, not analysis.',
+    action:'Do one small act of genuine engagement today — help someone, create something, or care for a living thing.',
+    questions:['Is this emptiness a truth, or a signal of disconnection?','When did I last feel genuinely engaged with something?','What is one small thing that still matters to me?'],
+    related:['purpose','identity-crisis','loss','fear-of-future']
+  },
+];
+
+/* ---------- SEED: Daily Reflections ---------- */
+const REFLECTIONS = [
+  { id:'r1', date:'2026-06-02', thought:'The cave you fear to enter holds the treasure you seek. What you avoid is often exactly where your growth waits.',
+    author:'— The Archive', question:'What is one thing I have been avoiding that might actually be the door to what I want?',
+    challenge:'Spend ten minutes today on the one task you have been putting off — no need to finish, only to begin.' },
+  { id:'r2', date:'2026-06-01', thought:'You are not required to set yourself on fire to keep others warm. Rest is not a betrayal of your responsibilities; it is part of them.',
+    author:'— The Archive', question:'Where am I giving more than I can sustainably afford to give?',
+    challenge:'Say a small, kind "no" to one thing today that drains you without serving you.' },
+  { id:'r3', date:'2026-05-31', thought:'Comparison is the thief of joy because it measures your private struggle against another\'s public highlight.',
+    author:'— The Archive', question:'Whose life am I comparing mine to, and what am I forgetting about theirs?',
+    challenge:'Notice each comparison today and gently return your attention to your own path.' },
+];
+
+/* ---------- DEMO state (mock auth + user data) ---------- */
+let user = null;
+let favorites = JSON.parse(localStorage.getItem('wm_favs') || '[]');
+let journal = JSON.parse(localStorage.getItem('wm_journal') || 'null') || [
+  { id:'j1', title:'On beginning again', content:'I keep waiting to feel ready. Today the Archive reminded me that readiness comes after the start, not before. I opened the document. That was enough.', created:'2026-05-30', updated:'2026-05-30' },
+  { id:'j2', title:'A quieter mind', content:'I spent the evening not solving anything, just sitting with the uncertainty. Strangely, it felt lighter than all my usual planning.', created:'2026-05-28', updated:'2026-05-29' },
+];
+function saveState(){ localStorage.setItem('wm_favs',JSON.stringify(favorites)); localStorage.setItem('wm_journal',JSON.stringify(journal)); }
+
+/* ---------- helpers ---------- */
+const $ = (s,r=document)=>r.querySelector(s);
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function catName(id){return (CATEGORIES.find(c=>c.id===id)||{}).name||'';}
+function isFav(id){return favorites.includes(id);}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2600);}
+function fmtDate(d){try{return new Date(d).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});}catch(e){return d;}}
+
+function toggleFav(id,ev){
+  if(ev){ev.stopPropagation();}
+  if(!user){openAuth('login');toast('Sign in to save favorites');return;}
+  if(isFav(id)){favorites=favorites.filter(f=>f!==id);toast('Removed from favorites');}
+  else{favorites.push(id);toast('✦ Saved to your favorites');}
+  saveState();
+  // refresh fav icons in place
+  document.querySelectorAll('[data-fav="'+id+'"]').forEach(b=>{b.classList.toggle('on',isFav(id));b.textContent=isFav(id)?'★':'☆';});
+  if(currentRoute==='favorites')render();
+}
+
+/* ---------- ROUTER ---------- */
+let currentRoute='home', routeArg=null;
+function go(route,arg){
+  // stop any narration when navigating away from a wisdom page
+  if(typeof listenStop==='function')listenStop();
+  currentRoute=route;routeArg=arg||null;window.scrollTo({top:0,behavior:'smooth'});document.getElementById('navlinks').classList.remove('open');render();updateNav();
+}
+window.go=go;window.toast=toast;window.toggleFav=toggleFav;
+
+function updateNav(){
+  document.querySelectorAll('nav.links a').forEach(a=>a.classList.toggle('active',a.dataset.go===currentRoute));
+  $('#authBtn').style.display=user?'none':'inline-flex';
+  $('#navAvatar').style.display=user?'grid':'none';
+  if(user)$('#navAvatar').textContent=user.name.charAt(0).toUpperCase();
+}
+
+/* ---------- VIEWS ---------- */
+function viewHome(){
+  return `
+  <section class="hero">
+    <div class="glow"></div>
+    <div class="wrap">
+      <span class="eyebrow reveal">✦ The Premium Knowledge Vault</span>
+      <h1 class="reveal d1">Wisdom Mode</h1>
+      <p class="sub reveal d2">A library of timeless wisdom for modern struggles.</p>
+      <div class="hero-btns reveal d3">
+        <button class="btn btn-gold" onclick="enterWisdom()">Enter Wisdom Mode →</button>
+        <button class="btn btn-ghost" onclick="go('categories')">Explore Struggles</button>
+      </div>
+      <div class="hero-stats reveal d4">
+        <div class="s"><b>${WISDOM.length}</b><span>Wisdom Entries</span></div>
+        <div class="s"><b>${CATEGORIES.length}</b><span>Categories</span></div>
+        <div class="s"><b>100%</b><span>Human-Written</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head"><div class="kicker">What awaits inside</div><h2>A sanctuary, not a feed</h2>
+        <p>No endless scrolling. No engagement traps. Only carefully written wisdom for the moments that matter.</p></div>
+      <div class="grid grid-4">
+        ${[
+          ['📜','Wisdom Library','A searchable archive of hand-written wisdom for real struggles.','library'],
+          ['🕯️','Daily Reflection','One thought, one question, one challenge — each day.','daily'],
+          ['📔','Personal Journal','A private space to reflect, write, and return to yourself.','journal'],
+          ['✦','Favorites','Keep the wisdom that speaks to you close at hand.','favorites'],
+        ].map((f,i)=>`<div class="card feature reveal d${i+1}" onclick="go('${f[3]}')" style="cursor:pointer">
+          <div class="ic">${f[0]}</div><h3>${f[1]}</h3><p>${f[2]}</p></div>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:linear-gradient(180deg,transparent,rgba(0,0,0,.25),transparent)">
+    <div class="wrap">
+      <div class="sec-head"><div class="kicker">Find your struggle</div><h2>Featured Categories</h2>
+        <p>Every category holds wisdom written for a specific kind of difficulty.</p></div>
+      <div class="grid grid-2">
+        ${CATEGORIES.map((c,i)=>catCardHTML(c,i)).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head"><div class="kicker">Featured Wisdom</div><h2>Begin where it hurts</h2></div>
+      <div class="wlist">
+        ${WISDOM.filter(w=>w.featured).map((w,i)=>wcardHTML(w,i)).join('')}
+      </div>
+    </div>
+  </section>`;
+}
+
+function catCardHTML(c,i){
+  const count=WISDOM.filter(w=>w.cat===c.id).length;
+  return `<div class="card cat-card reveal d${(i%4)+1}" onclick="go('category','${c.id}')">
+    <div class="top"><span class="em">${c.emoji}</span><span class="count">${count} entries</span></div>
+    <h3>${c.name}</h3>
+    <p style="color:var(--text-dim);font-size:.9rem;margin:0">${c.desc}</p>
+    <div class="chips">${c.subs.slice(0,4).map(s=>`<span class="chip">${s}</span>`).join('')}<span class="chip">+${c.subs.length-4}</span></div>
+  </div>`;
+}
+
+function wcardHTML(w,i){
+  return `<div class="card wcard reveal d${(i%4)+1}" onclick="go('wisdom','${w.id}')">
+    <div class="meta"><span class="tag">${catName(w.cat)} · ${w.tag}</span>
+      <button class="fav ${isFav(w.id)?'on':''}" data-fav="${w.id}" onclick="toggleFav('${w.id}',event)" title="Save to favorites">${isFav(w.id)?'★':'☆'}</button></div>
+    <h3>${w.title}</h3>
+    <div class="prob">“${w.problem}”</div>
+    <p style="color:var(--text-dim);font-size:.9rem;margin:0 0 .5rem">${w.wisdom[0].slice(0,120)}…</p>
+    <div class="foot"><span class="read">Read wisdom →</span>${w.popular?'<span class="chip">★ Popular</span>':''}</div>
+  </div>`;
+}
+
+let libFilter='all', libQuery='';
+function viewLibrary(){
+  return `<section class="section"><div class="wrap">
+    <div class="sec-head"><div class="kicker">The Archive</div><h2>Wisdom Library</h2>
+      <p>Search a struggle by name, keyword, or feeling. Clarity is one query away.</p></div>
+    <div class="toolbar">
+      <div class="search"><span style="color:var(--gold)">🔍</span>
+        <input id="libSearch" placeholder="Search: procrastination, loneliness, fear of failure…" value="${esc(libQuery)}" oninput="onSearch(this.value)"></div>
+    </div>
+    <div class="filters" style="margin-bottom:2rem">
+      <button class="fbtn ${libFilter==='all'?'active':''}" onclick="setFilter('all')">All</button>
+      ${CATEGORIES.map(c=>`<button class="fbtn ${libFilter===c.id?'active':''}" onclick="setFilter('${c.id}')">${c.emoji} ${c.name}</button>`).join('')}
+      <button class="fbtn ${libFilter==='popular'?'active':''}" onclick="setFilter('popular')">★ Popular</button>
+      <button class="fbtn ${libFilter==='recent'?'active':''}" onclick="setFilter('recent')">🕓 Recently Added</button>
+    </div>
+    <div id="libResults">${renderResults()}</div>
+  </div></section>`;
+}
+function renderResults(){
+  let list=WISDOM.slice();
+  if(libFilter==='popular')list=list.filter(w=>w.popular);
+  else if(libFilter==='recent')list=list.slice().sort((a,b)=>b.added.localeCompare(a.added)).slice(0,8);
+  else if(libFilter!=='all')list=list.filter(w=>w.cat===libFilter);
+  if(libQuery.trim()){
+    const q=libQuery.toLowerCase();
+    list=list.filter(w=>(w.title+' '+w.problem+' '+w.tag+' '+w.sub+' '+w.keywords.join(' ')+' '+w.wisdom.join(' ')).toLowerCase().includes(q));
+  }
+  if(!list.length)return `<div class="empty"><div class="e">🕯️</div><h3 style="color:var(--text-soft)">No wisdom found</h3><p>Try another word for what you are feeling.</p></div>`;
+  return `<div class="wlist">${list.map((w,i)=>wcardHTML(w,i)).join('')}</div>`;
+}
+function onSearch(v){libQuery=v;$('#libResults').innerHTML=renderResults();}
+function setFilter(f){libFilter=f;render();}
+window.onSearch=onSearch;window.setFilter=setFilter;
+
+function viewCategories(){
+  return `<section class="section"><div class="wrap">
+    <div class="sec-head"><div class="kicker">The Wings of the Library</div><h2>Categories</h2>
+      <p>Four halls, each devoted to a different family of human struggle.</p></div>
+    <div class="grid grid-2">${CATEGORIES.map((c,i)=>catCardHTML(c,i)).join('')}</div>
+  </div></section>`;
+}
+
+function viewCategory(id){
+  const c=CATEGORIES.find(x=>x.id===id);if(!c)return viewCategories();
+  const list=WISDOM.filter(w=>w.cat===id);
+  return `<section class="section"><div class="wrap">
+    <a class="back" onclick="go('categories')">← All categories</a>
+    <div class="sec-head" style="text-align:left;margin-bottom:2rem">
+      <div style="font-size:3rem">${c.emoji}</div>
+      <h2 style="margin:.5rem 0">${c.name}</h2>
+      <p style="margin:0">${c.desc}</p>
+      <div class="chips" style="justify-content:flex-start;margin-top:1rem">${c.subs.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+    </div>
+    <div class="wlist">${list.map((w,i)=>wcardHTML(w,i)).join('')}</div>
+  </div></section>`;
+}
+
+/* ---------- voice narration (Web Speech API) ---------- */
+let listenState='idle', listenQueue=[], listenIdx=0, listenActive=false, listenCurrentId=null;
+function listenSupported(){return typeof window!=='undefined' && 'speechSynthesis' in window;}
+function listenBuildQueue(w){
+  const segs=[`${w.title}. ${w.problem}`, ...w.wisdom, `Perspective shift. ${w.shift}`, `Practical action. ${w.action}`];
+  const voices=window.speechSynthesis.getVoices();
+  const pref=voices.find(v=>/en[-_]?(GB|US)/i.test(v.lang)&&/female|samantha|karen|serena|google/i.test(v.name))
+    ||voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith('en'))||voices[0];
+  const chunks=[];
+  segs.forEach(seg=>{const clean=(seg||'').trim();if(!clean)return;
+    const parts=clean.match(/[^.!?]+[.!?]*\s*/g)||[clean];let buf='';
+    parts.forEach(p=>{if((buf+p).length>220){if(buf)chunks.push(buf.trim());buf=p;}else buf+=p;});
+    if(buf.trim())chunks.push(buf.trim());});
+  return chunks.map(t=>{const u=new SpeechSynthesisUtterance(t);if(pref)u.voice=pref;u.rate=.92;u.pitch=1;return u;});
+}
+function listenUI(){
+  const ic=document.getElementById('listenIc'),play=document.getElementById('listenPlay'),stop=document.getElementById('listenStop');
+  if(!play)return;
+  if(listenState==='playing'){play.textContent='⏸ Pause';play.setAttribute('onclick','listenPause()');ic.textContent='🔊';ic.classList.add('pulse');stop.disabled=false;}
+  else if(listenState==='paused'){play.textContent='▶ Resume';play.setAttribute('onclick','listenPlay()');ic.textContent='🎧';ic.classList.remove('pulse');stop.disabled=false;}
+  else{play.textContent='▶ Play';play.setAttribute('onclick','listenPlay()');ic.textContent='🎧';ic.classList.remove('pulse');stop.disabled=true;}
+}
+function listenSpeakNext(){
+  if(!listenActive)return;const synth=window.speechSynthesis;
+  if(listenIdx>=listenQueue.length){listenActive=false;listenIdx=0;listenState='idle';listenUI();return;}
+  const u=listenQueue[listenIdx];
+  u.onend=()=>{if(!listenActive)return;listenIdx++;listenSpeakNext();};
+  u.onerror=()=>{listenActive=false;listenState='idle';listenUI();};
+  synth.speak(u);
+}
+function listenPlay(){
+  if(!listenSupported()){toast('Voice narration is not supported in this browser.');return;}
+  const synth=window.speechSynthesis;
+  if(listenState==='paused'){listenActive=true;synth.resume();listenState='playing';listenUI();return;}
+  const w=WISDOM.find(x=>x.id===listenCurrentId);if(!w)return;
+  synth.cancel();listenQueue=listenBuildQueue(w);listenIdx=0;
+  if(!listenQueue.length)return;
+  listenActive=true;listenState='playing';listenUI();listenSpeakNext();
+}
+function listenPause(){window.speechSynthesis.pause();listenState='paused';listenUI();}
+function listenStop(){listenActive=false;if(listenSupported())window.speechSynthesis.cancel();listenIdx=0;listenState='idle';listenUI();}
+window.listenPlay=listenPlay;window.listenPause=listenPause;window.listenStop=listenStop;
+
+function viewWisdom(id){
+  const w=WISDOM.find(x=>x.id===id);if(!w)return viewLibrary();
+  listenCurrentId=w.id;
+  const related=(w.related||[]).map(r=>WISDOM.find(x=>x.id===r)).filter(Boolean);
+  return `<section class="section"><div class="wrap"><div class="detail">
+    <a class="back" onclick="go('library')">← Back to library</a>
+    <span class="tag">${catName(w.cat)} · ${w.tag}</span>
+    <h1>${w.title}</h1>
+    <div class="problem-box">“${w.problem}”</div>
+
+    <div class="listen-bar">
+      <div class="listen-label">
+        <span class="listen-ic" id="listenIc">🎧</span>
+        <div>
+          <strong style="display:block;color:var(--parchment)">Listen to this wisdom</strong>
+          <span style="font-size:.82rem;color:var(--text-dim)">Hear the Wisdom, Perspective Shift &amp; Practical Action read aloud.</span>
+        </div>
+      </div>
+      <div class="listen-controls" role="group" aria-label="Narration controls">
+        <button class="btn btn-gold btn-sm" id="listenPlay" onclick="listenPlay()">▶ Play</button>
+        <button class="btn btn-ghost btn-sm" id="listenStop" onclick="listenStop()" disabled>⏹ Stop</button>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="label">📜 The Wisdom <span class="ln"></span></div>
+      <div class="wisdom-text">${w.wisdom.map(p=>`<p>${p}</p>`).join('')}</div>
+    </div>
+
+    <div class="block">
+      <div class="label">✦ Perspective Shift <span class="ln"></span></div>
+      <div class="shift-box"><p>${w.shift}</p></div>
+    </div>
+
+    <div class="block">
+      <div class="label">→ Practical Action <span class="ln"></span></div>
+      <div class="action-box"><div class="num">1</div><div style="font-family:var(--serif);font-size:1.1rem;color:var(--text)">${w.action}</div></div>
+    </div>
+
+    <div class="block">
+      <div class="label">❖ Reflection Questions <span class="ln"></span></div>
+      <ul class="qlist">${w.questions.map(q=>`<li>${q}</li>`).join('')}</ul>
+    </div>
+
+    ${related.length?`<div class="block">
+      <div class="label">⚯ Related Struggles <span class="ln"></span></div>
+      <div class="related">${related.map(r=>`<div class="rel-card" onclick="go('wisdom','${r.id}')"><div class="t">${r.title}</div><div class="c">${r.tag}</div></div>`).join('')}</div>
+    </div>`:''}
+
+    <div class="detail-actions">
+      <button class="btn ${isFav(w.id)?'btn-ghost':'btn-gold'}" data-fav="${w.id}" onclick="toggleFav('${w.id}',event)">${isFav(w.id)?'★ Saved to Favorites':'☆ Save to Favorites'}</button>
+      <button class="btn btn-ghost" onclick="go('library')">Explore more wisdom</button>
+    </div>
+  </div></div></section>`;
+}
+
+function viewDaily(){
+  const r=REFLECTIONS[0];
+  return `<section class="section"><div class="wrap"><div class="reflection">
+    <div class="refl-date">${fmtDate(r.date)} · Daily Reflection</div>
+    <div class="sec-head" style="margin-bottom:1rem"><h2 style="font-size:clamp(1.6rem,4vw,2.2rem)">A thought for today</h2></div>
+    <blockquote class="quote-big">“${r.thought}”<span class="author">${r.author}</span></blockquote>
+    <div style="text-align:center"><button class="btn ${isFav('daily-'+r.id)?'btn-ghost':'btn-gold'}" data-fav="daily-${r.id}" onclick="toggleFav('daily-${r.id}',event)">${isFav('daily-'+r.id)?'★ Saved':'☆ Save this reflection'}</button></div>
+    <div class="refl-cards">
+      <div class="card"><div class="label" style="display:flex;gap:.5rem;font-size:.74rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem">❖ Reflection Question</div>
+        <p style="font-family:var(--serif);font-size:1.2rem;color:var(--parchment);margin:0">${r.question}</p></div>
+      <div class="card"><div class="label" style="display:flex;gap:.5rem;font-size:.74rem;letter-spacing:2px;text-transform:uppercase;color:var(--ok);margin-bottom:.8rem">→ Daily Challenge</div>
+        <p style="font-family:var(--serif);font-size:1.2rem;color:var(--parchment);margin:0">${r.challenge}</p></div>
+    </div>
+    <div class="sec-head" style="margin:3rem 0 1.5rem"><div class="kicker">From the past days</div></div>
+    <div class="grid grid-2">
+      ${REFLECTIONS.slice(1).map(rr=>`<div class="card"><div class="refl-date" style="text-align:left">${fmtDate(rr.date)}</div>
+        <p style="font-family:var(--serif);font-style:italic;color:var(--text-soft);margin:.5rem 0 0">“${rr.thought}”</p></div>`).join('')}
+    </div>
+  </div></div></section>`;
+}
+
+function viewJournal(){
+  if(!user)return needAuth('your private journal');
+  return `<section class="section"><div class="wrap">
+    <div class="journal-head">
+      <div><div class="kicker" style="color:var(--gold);font-size:.72rem;letter-spacing:3px;text-transform:uppercase">Private · only you can see this</div>
+        <h2 style="margin:.4rem 0 0">Personal Journal</h2></div>
+      <button class="btn btn-gold" onclick="openJournal()">＋ New Entry</button>
+    </div>
+    ${journal.length?`<div class="grid grid-2">${journal.map(j=>`
+      <div class="card jentry">
+        <div class="dt">${fmtDate(j.created)}${j.updated!==j.created?' · edited '+fmtDate(j.updated):''}</div>
+        <h3>${esc(j.title)}</h3>
+        <p>${esc(j.content)}</p>
+        <div class="acts">
+          <button class="icon-btn" onclick="openJournal('${j.id}')">✎ Edit</button>
+          <button class="icon-btn del" onclick="delJournal('${j.id}')">🗑 Delete</button>
+        </div>
+      </div>`).join('')}</div>`
+    :`<div class="empty"><div class="e">📔</div><h3 style="color:var(--text-soft)">Your journal is empty</h3><p>Begin where you are. The first sentence is enough.</p></div>`}
+  </div></section>`;
+}
+
+function viewFavorites(){
+  if(!user)return needAuth('your favorites');
+  const favW=favorites.filter(f=>!f.startsWith('daily-')).map(id=>WISDOM.find(w=>w.id===id)).filter(Boolean);
+  const favR=favorites.filter(f=>f.startsWith('daily-')).map(id=>REFLECTIONS.find(r=>'daily-'+r.id===id)).filter(Boolean);
+  return `<section class="section"><div class="wrap">
+    <div class="sec-head"><div class="kicker">Your collection</div><h2>Favorites</h2>
+      <p>The wisdom and reflections you chose to keep close.</p></div>
+    ${(!favW.length&&!favR.length)?`<div class="empty"><div class="e">✦</div><h3 style="color:var(--text-soft)">No favorites yet</h3><p>Tap the star on any wisdom entry to save it here.</p>
+      <button class="btn btn-gold" style="margin-top:1rem" onclick="go('library')">Explore the library</button></div>`:''}
+    ${favW.length?`<h3 style="color:var(--parchment);margin-bottom:1.2rem">📜 Saved Wisdom</h3><div class="wlist" style="margin-bottom:2.5rem">${favW.map((w,i)=>wcardHTML(w,i)).join('')}</div>`:''}
+    ${favR.length?`<h3 style="color:var(--parchment);margin-bottom:1.2rem">🕯️ Saved Reflections</h3><div class="grid grid-2">${favR.map(r=>`
+      <div class="card"><div class="refl-date" style="text-align:left">${fmtDate(r.date)}</div>
+        <p style="font-family:var(--serif);font-style:italic;color:var(--text-soft);margin:.5rem 0 0">“${r.thought}”</p>
+        <button class="icon-btn del" style="margin-top:1rem" onclick="toggleFav('daily-${r.id}',event)">Remove</button></div>`).join('')}</div>`:''}
+  </div></section>`;
+}
+
+function viewProfile(){
+  if(!user)return needAuth('your profile');
+  const jc=journal.length, fc=favorites.length;
+  return `<section class="section"><div class="wrap" style="max-width:820px">
+    <div class="profile-head">
+      <div class="big-av">${user.name.charAt(0).toUpperCase()}</div>
+      <div><h2 style="margin:0">${esc(user.name)}</h2>
+        <p style="color:var(--text-dim);margin:.3rem 0 0">${esc(user.email)}</p>
+        <p style="color:var(--gold);font-size:.85rem;margin:.3rem 0 0">Member since ${fmtDate(user.joined)}</p></div>
+      <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="openEditProfile()">✎ Edit Profile</button>
+    </div>
+    <div class="grid stat-grid" style="margin-bottom:2.5rem">
+      <div class="card stat"><b>${fc}</b><span>Total Favorites</span></div>
+      <div class="card stat"><b>${jc}</b><span>Journal Entries</span></div>
+      <div class="card stat"><b>${WISDOM.length}</b><span>Entries Available</span></div>
+      <div class="card stat"><b>${CATEGORIES.length}</b><span>Categories</span></div>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--parchment);margin-bottom:1rem">Quick access</h3>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="go('favorites')">✦ My Favorites</button>
+        <button class="btn btn-ghost btn-sm" onclick="go('journal')">📔 My Journal</button>
+        <button class="btn btn-ghost btn-sm" onclick="go('daily')">🕯️ Daily Reflection</button>
+        <button class="btn btn-ghost btn-sm" onclick="logout()">↪ Sign Out</button>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function needAuth(what){
+  return `<section class="section"><div class="wrap"><div class="empty" style="padding:6rem 1rem">
+    <div class="e">🔒</div><h2 style="color:var(--parchment)">Sign in to access ${what}</h2>
+    <p style="max-width:380px;margin:.5rem auto 1.5rem">Your journal, favorites, and profile are protected. Create a free account or sign in to continue.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-gold" onclick="openAuth('signup')">Create Account</button>
+      <button class="btn btn-ghost" onclick="openAuth('login')">Sign In</button></div>
+  </div></div></section>`;
+}
+
+/* ---------- render ---------- */
+function render(){
+  const map={home:viewHome,library:viewLibrary,categories:viewCategories,category:()=>viewCategory(routeArg),
+    wisdom:()=>viewWisdom(routeArg),daily:viewDaily,journal:viewJournal,favorites:viewFavorites,profile:viewProfile};
+  $('#main').innerHTML=(map[currentRoute]||viewHome)();
+  updateNav();
+  if(currentRoute==='wisdom' && typeof listenUI==='function')listenUI();
+}
+
+/* ---------- auth (mock) ---------- */
+function openAuth(mode){$('#authModal').classList.add('show');renderAuth(mode||'login');}
+function closeAuth(){$('#authModal').classList.remove('show');}
+window.openAuth=openAuth;window.closeAuth=closeAuth;
+function renderAuth(mode){
+  let html='';
+  if(mode==='login'){html=`
+    <h2>Welcome back</h2><p class="msub">Re-enter the library of wisdom.</p>
+    <div class="field"><label>Email</label><input id="aEmail" type="email" placeholder="you@example.com" value="seeker@wisdom.app"></div>
+    <div class="field"><label>Password</label><input id="aPass" type="password" placeholder="••••••••" value="password"></div>
+    <div class="row-between"><label class="checkrow"><input type="checkbox" id="aRemember" checked> Remember me</label><a onclick="renderAuth('reset')">Forgot password?</a></div>
+    <button class="btn btn-gold" style="width:100%" onclick="doLogin()">Sign In</button>
+    <div class="switch">New here? <a onclick="renderAuth('signup')">Create an account</a></div>`;}
+  else if(mode==='signup'){html=`
+    <h2>Begin your journey</h2><p class="msub">Create a free account to save wisdom and journal.</p>
+    <div class="field"><label>Name</label><input id="aName" placeholder="Your name"></div>
+    <div class="field"><label>Email</label><input id="aEmail" type="email" placeholder="you@example.com"></div>
+    <div class="field"><label>Password</label><input id="aPass" type="password" placeholder="Create a password"></div>
+    <button class="btn btn-gold" style="width:100%" onclick="doSignup()">Create Account</button>
+    <div class="switch">Already a member? <a onclick="renderAuth('login')">Sign in</a></div>`;}
+  else{html=`
+    <h2>Reset password</h2><p class="msub">We'll send a reset link to your email.</p>
+    <div class="field"><label>Email</label><input id="aEmail" type="email" placeholder="you@example.com"></div>
+    <button class="btn btn-gold" style="width:100%" onclick="doReset()">Send reset link</button>
+    <div class="switch"><a onclick="renderAuth('login')">← Back to sign in</a></div>`;}
+  $('#authBody').innerHTML=html;
+}
+window.renderAuth=renderAuth;
+function doLogin(){const email=$('#aEmail').value.trim();if(!email){toast('Enter your email');return;}
+  user={name:'Seeker',email,joined:'2026-03-12'};closeAuth();toast('Welcome back, '+user.name);go('library');}
+function doSignup(){const name=$('#aName').value.trim(),email=$('#aEmail').value.trim();if(!name||!email){toast('Fill in all fields');return;}
+  user={name,email,joined:new Date().toISOString().slice(0,10)};closeAuth();toast('Welcome to Wisdom Mode, '+name);go('library');}
+function doReset(){closeAuth();toast('If that email exists, a reset link is on its way.');}
+function logout(){user=null;toast('Signed out. Until next time.');go('home');}
+window.doLogin=doLogin;window.doSignup=doSignup;window.doReset=doReset;window.logout=logout;
+function enterWisdom(){if(user)go('library');else openAuth('signup');}
+window.enterWisdom=enterWisdom;
+
+/* ---------- journal editor (mock modal reuse) ---------- */
+function openJournal(id){
+  const j=id?journal.find(x=>x.id===id):null;
+  $('#authModal').classList.add('show');
+  $('#authBody').innerHTML=`
+    <h2>${j?'Edit entry':'New journal entry'}</h2><p class="msub">Private · only you can read this.</p>
+    <div class="field"><label>Title</label><input id="jTitle" value="${j?esc(j.title):''}" placeholder="Give it a name"></div>
+    <div class="field"><label>Content</label><textarea id="jContent" placeholder="Write freely…">${j?esc(j.content):''}</textarea></div>
+    <button class="btn btn-gold" style="width:100%" onclick="saveJournal('${id||''}')">${j?'Save changes':'Create entry'}</button>`;
+}
+function saveJournal(id){
+  const title=$('#jTitle').value.trim(),content=$('#jContent').value.trim();
+  if(!title||!content){toast('Title and content required');return;}
+  const today=new Date().toISOString().slice(0,10);
+  if(id){const j=journal.find(x=>x.id===id);j.title=title;j.content=content;j.updated=today;toast('Entry updated');}
+  else{journal.unshift({id:'j'+Date.now(),title,content,created:today,updated:today});toast('Entry created');}
+  saveState();closeAuth();render();
+}
+function delJournal(id){if(!confirm('Delete this journal entry? This cannot be undone.'))return;journal=journal.filter(x=>x.id!==id);saveState();toast('Entry deleted');render();}
+window.openJournal=openJournal;window.saveJournal=saveJournal;window.delJournal=delJournal;
+
+function openEditProfile(){
+  $('#authModal').classList.add('show');
+  $('#authBody').innerHTML=`
+    <h2>Edit profile</h2><p class="msub">Update your details.</p>
+    <div class="field"><label>Name</label><input id="pName" value="${esc(user.name)}"></div>
+    <div class="field"><label>Email</label><input id="pEmail" value="${esc(user.email)}"></div>
+    <button class="btn btn-gold" style="width:100%" onclick="saveProfile()">Save changes</button>`;
+}
+function saveProfile(){user.name=$('#pName').value.trim()||user.name;user.email=$('#pEmail').value.trim()||user.email;saveState();closeAuth();toast('Profile updated');render();}
+window.openEditProfile=openEditProfile;window.saveProfile=saveProfile;
+
+/* nav link handlers */
+document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();go(el.dataset.go);}));
+$('#authModal').addEventListener('click',e=>{if(e.target===$('#authModal'))closeAuth();});
+
+/* boot */
+render();
+</script>
+</body>
+</html>
